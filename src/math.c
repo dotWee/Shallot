@@ -26,9 +26,11 @@ RSA *easygen(uint16_t num, uint8_t len, uint8_t *der, uint8_t edl,
              SHA_CTX *ctx) {
   uint8_t der_len;
   RSA *rsa;
-  BIGNUM *BN_three; // This may be replaced with a constant version of a BIGNUM
+  static BIGNUM *BN_three = NULL; // This may be replaced with a constant version of a BIGNUM
 
-  BN_dec2bn(&BN_three, "3");
+  if (BN_three == NULL) {
+    BN_dec2bn(&BN_three, "3");
+  }
 
   for(;;) { // ugly, I know, but better than using goto IMHO
     rsa = RSA_new();
